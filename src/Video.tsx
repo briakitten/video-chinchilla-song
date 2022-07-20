@@ -9,7 +9,7 @@ export const RemotionVideo: React.FC = () => {
 			<Composition
 				// You can take the "id" to render a video:
 				// npx remotion render src/index.tsx <id> out/video.mp4
-				id="HelloWorld"
+				id="MusicVideo"
 				component={MusicVideo}
 				durationInFrames={150}
 				fps={30}

@@ -8,7 +8,10 @@ import {
     Audio,
     staticFile,
     continueRender,
-    delayRender
+    delayRender,
+    interpolate,
+    useCurrentFrame,
+    useVideoConfig
 } from 'remotion';
 
 const waitForFont = delayRender();
@@ -27,19 +30,31 @@ export const MusicVideo: React.FC<{
     titleText: string,
     titleColor: string
 }> = ({titleText, titleColor}) => {
+    const frame = useCurrentFrame();
+    const {durationInFrames, fps} = useVideoConfig();
+
     const composerText = "> briakitten"
+    const coverScale = 1;
+
+    const opacity = interpolate(
+        frame,
+        [0, 30],
+        [0, 1]
+    );
 
     return (
-        <AbsoluteFill style={{backgroundColor: 'white'}}>
-            <Img src={coverBackground} style={{position: "absolute"}}/>
-            <Img src={cover} style={{
-                position: "absolute", border: "8px solid #152c5c", width: 960, height: 718.5,
-                top: "40%", left: "50%", transform: "translate(-50%, -50%)"
-            }} />
-            <div style={{
-                position: "absolute", fontSize: 64, color: "#152c5c", fontFamily: "CreatureOriginal",
-                top: "85%", left: "50%", transform: "translate(-50%, -50%)"
-            }}>{composerText}</div>
+        <AbsoluteFill style={{backgroundColor: 'black'}}>
+            <AbsoluteFill style={{opacity}}>
+                <Img src={coverBackground} style={{position: "absolute"}}/>
+                <Img src={cover} style={{
+                    position: "absolute", border: "10px solid #15045b", width: 669 * coverScale, height: 680 * coverScale,
+                    top: "45%", left: "50%", transform: "translate(-50%, -50%)"
+                }} />
+                <div style={{
+                    position: "absolute", fontSize: 64, color: "#15045b", fontFamily: "CreatureOriginal",
+                    top: "85%", left: "50%", transform: "translate(-50%, -50%)"
+                }}>{composerText}</div>
+            </AbsoluteFill>
         </AbsoluteFill>
     )
 }
