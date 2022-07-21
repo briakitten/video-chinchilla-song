@@ -4,6 +4,8 @@ import {MusicVideo} from './MusicVideo';
 // Each <Composition> is an entry in the sidebar!
 
 export const RemotionVideo: React.FC = () => {
+	const frameDuration = 3330;
+
 	return (
 		<>
 			<Composition
@@ -11,7 +13,7 @@ export const RemotionVideo: React.FC = () => {
 				// npx remotion render src/index.tsx <id> out/video.mp4
 				id="MusicVideo"
 				component={MusicVideo}
-				durationInFrames={150}
+				durationInFrames={frameDuration}
 				fps={30}
 				width={1920}
 				height={1080}
@@ -26,7 +28,7 @@ export const RemotionVideo: React.FC = () => {
 			<Composition
 				id="OnlyLogo"
 				component={MusicVideo}
-				durationInFrames={150}
+				durationInFrames={frameDuration}
 				fps={30}
 				width={1920}
 				height={1080}

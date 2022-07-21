@@ -14,6 +14,9 @@ import {
     useVideoConfig
 } from 'remotion';
 
+import EndText from './components/EndText';
+import Animate from './components/Animate';
+
 const waitForFont = delayRender();
 const font = new FontFace(
     `CreatureOriginal`,
@@ -26,35 +29,48 @@ font.load()
     })
     .catch((err) => console.log("Error loading font", err));
 
-export const MusicVideo: React.FC<{
-    titleText: string,
-    titleColor: string
-}> = ({titleText, titleColor}) => {
+export const MusicVideo: React.FC<{}> = () => {
     const frame = useCurrentFrame();
     const {durationInFrames, fps} = useVideoConfig();
 
     const composerText = "> briakitten"
     const coverScale = 1;
 
-    const opacity = interpolate(
+    const opacityCover = interpolate(
         frame,
-        [0, 30],
+        [0, 180],
         [0, 1]
     );
 
+    const opacityText = interpolate(
+        frame,
+        [180, 270],
+        [0, 1]
+    );
+
+    const endPoint = durationInFrames - 360;
+
     return (
         <AbsoluteFill style={{backgroundColor: 'black'}}>
-            <AbsoluteFill style={{opacity}}>
-                <Img src={coverBackground} style={{position: "absolute"}}/>
-                <Img src={cover} style={{
-                    position: "absolute", border: "10px solid #15045b", width: 669 * coverScale, height: 680 * coverScale,
+
+            <AbsoluteFill>
+                <Img src={coverBackground} style={{opacity: opacityCover, position: "absolute"}}/>
+                <Img src={cover} style={{ opacity: opacityCover, position: "absolute",
+                    border: "10px solid #15045b", width: 669 * coverScale, height: 680 * coverScale,
                     top: "45%", left: "50%", transform: "translate(-50%, -50%)"
                 }} />
-                <div style={{
-                    position: "absolute", fontSize: 64, color: "#15045b", fontFamily: "CreatureOriginal",
+                <div style={{ opacity: opacityText, position: "absolute",
+                    fontSize: 64, color: "#15045b", fontFamily: "CreatureOriginal",
                     top: "85%", left: "50%", transform: "translate(-50%, -50%)"
                 }}>{composerText}</div>
             </AbsoluteFill>
+            <EndText />
+            <Animate />
+            <Audio
+                src={music}
+                startFrom={0} // if composition is 30fps, then it will start at 2s
+                endAt={Infinity} // if composition is 30fps, then it will end at 4s
+            />
         </AbsoluteFill>
     )
 }
